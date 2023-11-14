@@ -1,3 +1,6 @@
 
 # app settings
-return_all_matching_templates = True # if True - return list of all matching templates, else - only first
+
+# Если установлено True - функция возвращает все подходящие шаблоны, в противном случае только первый подходящий.
+return_all_matching_templates = True
+

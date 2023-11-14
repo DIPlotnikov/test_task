@@ -103,14 +103,13 @@ app = Flask(__name__)
 def receive_data():
     raw_form = dict(request.form)
     form = create_form_template(raw_form)
-    print(form)
     s_template_list = get_suitable_form_template(form)
 
     if s_template_list:  # we have found a suitable form
         if settings.return_all_matching_templates:
             return " ".join(s_template_list)  # retur n string with tempates names
         else:
-            return s_template_list[0]  # return first tempate name
+            return s_template_list[0]  # return first template name
     else:
         return form
 
