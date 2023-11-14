@@ -1,4 +1,4 @@
 {"_default": {
 "1": {"name": "CommentForm", "user_email": "email", "user_phone": "phone_number", "publication _date": "date", "text_field": "text"}, 
 "2": {"name": "OrderForm", "user_name": "text", "order_date": "date", "user_phone": "phone_number"}, 
-"3": {"name": "UserRegistretion", "user": "phone_number"}}}
+"3": {"name": "UserRegistration", "user": "phone_number"}}}

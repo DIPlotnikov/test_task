@@ -1,30 +1,8 @@
 import re
+import settings
 from datetime import datetime
 from tinydb import TinyDB, Query
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
-@app.route('/data', methods=['POST'])
-def receive_data():
-    data = request.form
-    print(data)
-    print('='*10)
-    print(jsonify(data))
-    return jsonify(data)
-
-
-comment_form = {"user_email": "email",
-                "user_phone": "phone_number",
-                "publication _date": "date",
-                "text_field": "text"
-                }
-
-order_form = {
-    "user_name": "text",
-    "order_date": "date",
-    "user_phone": "phone"
-}
+from flask import Flask, request
 
 
 def email_adress_is_valid(email: str):
@@ -34,10 +12,17 @@ def email_adress_is_valid(email: str):
     return bool(result)
 
 
+def clear_num(num: str):
+    unsupported_ch = [" ", "-", "(", ")"]
+    for ch in unsupported_ch:
+        num = num.replace(ch, '')
+    return num
+
+
 def phone_num_is_valid(num: str):
-    """ pattern: +7 xxx xxx xx xx (x - int)"""
-    pattern = r'\+7 \d{3} \d{3} \d{2} \d{2}'
-    result = re.fullmatch(pattern, num)
+    """ pattern: +7/8 xxx xxx xx xx (x - int)"""
+    pattern = r'(?:\+7|8)\d{10}'
+    result = re.fullmatch(pattern, clear_num(num))
     return bool(result)
 
 
@@ -77,6 +62,14 @@ def get_data_type(data: str):
         return 'unsupported type'
 
 
+def create_form_template(form: dict):
+    """the function will create a new form template based on the submitted form"""
+    new_form_template = {}
+    for key in form.keys():
+        new_form_template[key] = get_data_type(form[key])
+    return new_form_template  # return dict with new form template
+
+
 def template_is_valid(form: dict, template: dict):
     for key in template.keys():
         if key == "name":
@@ -86,7 +79,7 @@ def template_is_valid(form: dict, template: dict):
     return True
 
 
-def get_suitable_form_template(form):
+def get_suitable_form_template(form: dict):
     db = TinyDB('db.json')
 
     # primary search - If all the passed fields are included in the form template
@@ -100,20 +93,27 @@ def get_suitable_form_template(form):
     for template in templates:
         if template_is_valid(form, template):
             result.append(template['name'])
-    return result
+    return result  # return list of template names
 
 
+app = Flask(__name__)
 
 
-#post = {"user": "phone_number", "user_name": "text", "order_date": "date", "user_phone": "phone_number"}
-#print(get_suitable_form_template(post))
-# print(email_adress_validation('som123etext@ya.com'))
-# print(phone_num_validation('+7 982 248 34 08'))
-# print(date_validation('2023-02-01'))
-# print(text_validation("123"))
+@app.route('/get_form', methods=['POST'])
+def receive_data():
+    raw_form = dict(request.form)
+    form = create_form_template(raw_form)
+    print(form)
+    s_template_list = get_suitable_form_template(form)
+
+    if s_template_list:  # we have found a suitable form
+        if settings.return_all_matching_templates:
+            return " ".join(s_template_list)  # retur n string with tempates names
+        else:
+            return s_template_list[0]  # return first tempate name
+    else:
+        return form
+
+
 if __name__ == '__main__':
     app.run()
-# print(get_data_type(True))
-# dict1 = {'name': 'John', 'age': 30, 'city': 'New York'}
-# dict2 = {'name': 'John', 'age': 30}
-# print(template_validation(dict1, dict2))
