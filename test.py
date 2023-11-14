@@ -3,7 +3,7 @@ from os import path
 import requests
 import unittest
 
-# Тестовые данные
+# for tests
 
 comment_form = {"name": "CommentForm",
                 "user_email": "email",
@@ -15,15 +15,17 @@ comment_form = {"name": "CommentForm",
 order_form = {"name": "OrderForm",
               "user_name": "text",
               "order_date": "date",
-              "user_phone": "phone"
+              "user_phone": "phone_number"
               }
-user_reg = {"name": "UserRegistretion",
+user_reg = {"name": "UserRegistration",
             "user": 'phone_number'}
+test_form_1 = {'name': 'test_form_1', 'A': 'text', 'B': 'text'}
+test_form_2 = {'name': 'test_form_2', 'C': 'text', 'B': 'text'}
 
 if not path.exists('db.json'):
     print('--== create test db ==--')
     db = TinyDB('db.json')
-    db.insert_multiple([comment_form, order_form, user_reg])
+    db.insert_multiple([comment_form, order_form, user_reg, test_form_1, test_form_2])
     db.close()
 
 
@@ -63,6 +65,10 @@ class TestForms(unittest.TestCase):
                                  "text_field": "some text"}),
             'CommentForm'
         )
+        self.assertEqual(
+            send_test_post(url, {'A':1, 'B':2, 'C':3}),
+            'test_form_1 test_form_2'
+        )
 
     def test_uncorrect_cases(self):
         url = 'http://localhost:5000/get_form'
@@ -82,4 +88,3 @@ class TestForms(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

@@ -5,7 +5,7 @@ from tinydb import TinyDB, Query
 from flask import Flask, request
 
 
-def email_adress_is_valid(email: str):
+def email_address_is_valid(email: str):
     """ pattern: sometext@yandex.ru """
     pattern = r'\w+@\w+\.\w+'
     result = re.fullmatch(pattern, email)
@@ -52,7 +52,7 @@ def get_data_type(data: str):
             return 'date'
         elif phone_num_is_valid(data):
             return 'phone_number'
-        elif email_adress_is_valid(data):
+        elif email_address_is_valid(data):
             return 'email'
         elif text_is_valid(data):
             return 'text'
@@ -107,7 +107,7 @@ def receive_data():
 
     if s_template_list:  # we have found a suitable form
         if settings.return_all_matching_templates:
-            return " ".join(s_template_list)  # retur n string with tempates names
+            return " ".join(s_template_list)  # return string with tempates names
         else:
             return s_template_list[0]  # return first template name
     else:
@@ -116,3 +116,6 @@ def receive_data():
 
 if __name__ == '__main__':
     app.run()
+
+
+
