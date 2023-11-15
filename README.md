@@ -14,9 +14,9 @@
 ## Принимаемые данные
 POST запрос, где ключами является поля формы,  
 а значениями - введенные пользователями данные.  
-url - http://localhost:5000/get_form
-Формат запроса:
-f_name1=value1&f_name2=value2
+url - http://localhost:5000/get_form  
+Формат запроса:  
+f_name1=value1&f_name2=value2  
 
 ### Типы данных:
 
@@ -43,19 +43,19 @@ f_name1=value1&f_name2=value2
 settings.py будут возвращены имена всех шаблонов (True) разделенных пробелами или только
 первого подошедшего (False).
 
-Пример 1:
-"CommentForm"
-Пример 2:
-"CommentForm" "RegForm"
+Пример 1:  
+"CommentForm"  
+Пример 2:  
+"CommentForm" "RegForm"  
 
 В случае, если ни один шаблон не подходит, то программа возвращает
 переданную форму, где вместо пользовательских значений будут указаны типы этих значений.
 
-Пример: 
-{
-"field_name_1": "email",
-"field_name_2": "phone"
-}
+Пример:  
+{  
+"field_name_1": "email",  
+"field_name_2": "phone"  
+}  
 
 # Установка
 1. Запустите _install.bat в папке с программой. Он установит виртуальное окружение 
@@ -76,8 +76,8 @@ settings.py будут возвращены имена всех шаблонов
 обратитесь в техподдержку ПО на почту d.i.plotnikov@yandex.ru
 
 # Зависимости
-python 3.10
-Flask 2.0.2
-requests 2.31.0
-tinydb 4.8.0
-Werkzeug 2.3.7
+python 3.10  
+Flask 2.0.2  
+requests 2.31.0  
+tinydb 4.8.0  
+Werkzeug 2.3.7  
