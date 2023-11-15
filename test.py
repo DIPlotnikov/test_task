@@ -8,7 +8,7 @@ import unittest
 comment_form = {"name": "CommentForm",
                 "user_email": "email",
                 "user_phone": "phone_number",
-                "publication _date": "date",
+                "publication_date": "date",
                 "text_field": "text"
                 }
 
@@ -61,7 +61,7 @@ class TestForms(unittest.TestCase):
         self.assertEqual(
             send_test_post(url, {"user_email": "1@sdf.safd",
                                  "user_phone": "+7 999 888 77 66",
-                                 "publication _date": "01.11.1111",
+                                 "publication_date": "01.11.1111",
                                  "text_field": "some text"}),
             'CommentForm'
         )
